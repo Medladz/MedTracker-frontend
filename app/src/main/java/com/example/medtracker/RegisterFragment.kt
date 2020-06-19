@@ -213,11 +213,12 @@ class RegisterFragment : Fragment() {
         val email = email.text.toString()
         val password = password.text.toString().sha512() //already hashed
         val dateOfBirth = datePicker.text.toString()
-        val registerFormBody = "{\"username\":\"$username\",\"email\":\"$email\", \"password\":\"$password\",\"verified\":false,\"birthday\":\"$dateOfBirth\"}"
+        val registerFormBody = "{\"username\":\"$username\",\"email\":\"$email\", \"password\":\"$password\",\"birthday\":\"$dateOfBirth\"}"
 
         //setting up the request
         Thread(Runnable {
-            Fuel.post("http://192.168.43.193:8080/user") //TODO make this request to server
+            Fuel.post("http://83.87.187.173:8080/users")
+
                 .jsonBody(registerFormBody)
                 .also { println(it) }
                 .response { result ->
@@ -250,31 +251,34 @@ class RegisterFragment : Fragment() {
     private fun loginPost(email: String, password: String) {
         val registerFormBody = "{\"email\":\"$email\",\"password\":\"$password\"}"
 
+        //setting up the request
         Thread(Runnable {
-            val (_, _, result) = Fuel.post("http://192.168.43.193:8080/login") //TODO make this request to server
+            Fuel.post("http://83.87.187.173:8080/users/login")
+
                 .jsonBody(registerFormBody)
                 .also { println(it) }
-                .responseString()
+                .responseObject(LoginFragment.User.Deserializer()) { request, response, result ->
 
-            when (result) {
-                is Result.Success -> {
-                    activity?.runOnUiThread {
-                        if(result.value.toInt() != 0) { //TODO: when backend changes this to a string this check needs to change
-                            saveToken(result.value) //save the token to sharedpreferences
-                            startMain() //start the main activity
-                        } else {
+                    val (user, err) = result
+                    when (result) {
+                        is Result.Success -> {
                             activity?.runOnUiThread {
-                                Toast.makeText(context,"Your Token failed.", Toast.LENGTH_LONG).show()
+                                saveToken(user!!.data) //save the token to sharedpreferences
+                                startMain() //start the main activity
+                            }
+                        }
+                        is Result.Failure -> {
+                            println(result)
+                            activity?.runOnUiThread {
+                                Toast.makeText(
+                                    context,
+                                    "Your email or password is incorrect",
+                                    Toast.LENGTH_LONG
+                                ).show()
                             }
                         }
                     }
                 }
-                is Result.Failure -> {
-                    activity?.runOnUiThread {
-                        Toast.makeText(context,"Something went wrong: $result", Toast.LENGTH_LONG).show()
-                    }
-                }
-            }
         }).start()
     }
 

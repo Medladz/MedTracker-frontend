@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.substance_row.view.*
 
-class SubstanceAdapter(val drugFeed: DrugFeed): RecyclerView.Adapter<CustomViewHolder>(){
+class SubstanceAdapter(val drugFeed: NewSubstance.DrugFeed): RecyclerView.Adapter<CustomViewHolder>(){
 
     override fun getItemCount(): Int {
         println(drugFeed.data.count())
@@ -37,7 +37,7 @@ class SubstanceAdapter(val drugFeed: DrugFeed): RecyclerView.Adapter<CustomViewH
 }
 
 // video is de functie waar de json data binnenkomt
-class CustomViewHolder(val view: View, var drug: drugdata?= null): RecyclerView.ViewHolder(view){
+class CustomViewHolder(val view: View, var drug: NewSubstance.DrugFeed.drugdata?= null): RecyclerView.ViewHolder(view){
     //hier stuur je de info via een intent mee naar de add_substance
     companion object{
         const val SubstanceNameKey = "Substance title"

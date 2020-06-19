@@ -2,7 +2,7 @@
     <string name="appName">MEDtracker</string>
     <string name="btnNewSub">Button</string>
     <string name="goBack">Terug</string>
-    <string name="addNewSubstance">Add a New Substance</string>
+    <string name="addNewSubstance">Add your own substance</string>
     <string name="searchSubstance">Alcohol..</string>
     <string name="searchbarText">Zoeken naar een substantie</string>
     <string name="suggestion1">Alcohol...</string>
@@ -37,6 +37,7 @@
     <string name="password_strength_strong">Strong</string>
     <string name="password_strength_very_strong">Very strong</string>
     <string name="passwordRules">Your password must be at least 8 characters. With at least 1 number and 1 special character</string>
+    <string name="substanceSearch">Search for substance</string>
     <string name="welcomeSettings">Welcome to the settings</string>
     <string name="profile">Profile</string>
     <string name="name">Name</string>
@@ -47,5 +48,4 @@
     <string name="log">Pressing this will log you out.</string>
     <string name="deleteAccount">Delete account</string>
     <string name="delete">Pressing this will delete your account</string>
-
 </resources>
