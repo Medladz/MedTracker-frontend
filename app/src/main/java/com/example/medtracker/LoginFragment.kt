@@ -111,26 +111,27 @@ class LoginFragment : Fragment() {
            Fuel.post("http://83.87.187.173:8080/users/login")
                 .jsonBody(loginFormBody)
                 .also { println(it) }
-                .responseObject(User.Deserializer()) {request, response, result ->
+                .responseObject(User.Deserializer()) { request, response, result ->
 
-            val (user, err) = result
-            when (result) {
-                is Result.Success -> {
-                    activity?.runOnUiThread {
-                        saveToken(user!!.data) //save the token to sharedpreferences
-                        startMain() //start the main activity
+                    val (user, err) = result
+                    when (result) {
+                        is Result.Success -> {
+                            activity?.runOnUiThread {
+                                saveToken(user!!.data) //save the token to sharedpreferences
+                                startMain() //start the main activity
+                            }
+                        }
+                            is Result.Failure -> {
+                                activity?.runOnUiThread {
+                                    Toast.makeText(
+                                        context,
+                                        "Your email or password is incorrect",
+                                        Toast.LENGTH_LONG
+                                    ).show()
+                                }
+                            }
+                        }
                     }
-                is Result.Failure -> {
-                    activity?.runOnUiThread {
-                        Toast.makeText(
-                            context,
-                            "Your email or password is incorrect",
-                            Toast.LENGTH_LONG
-                        ).show()
-                    }
-                }
-            }
-                }
         }).start()
     }
 

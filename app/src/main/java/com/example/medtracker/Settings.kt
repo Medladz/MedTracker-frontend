@@ -66,7 +66,7 @@ class Settings : Fragment() {
     fun delete() {
         val apiToken = getApiToken()
         Thread(Runnable {
-            val (_, _, result) = Fuel.delete("http://192.168.1.4:8080/user/$apiToken") //TODO make this request to server
+            val (_, _, result) = Fuel.delete("http://83.87.187.173:8080/user/$apiToken") //TODO make this request to server
                 .also { println(it) }
                 .responseString()
 
