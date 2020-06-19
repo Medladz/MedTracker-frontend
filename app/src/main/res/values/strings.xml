@@ -38,5 +38,14 @@
     <string name="password_strength_very_strong">Very strong</string>
     <string name="passwordRules">Your password must be at least 8 characters. With at least 1 number and 1 special character</string>
     <string name="substanceSearch">Search for substance</string>
-
+    <string name="welcomeSettings">Welcome to the settings</string>
+    <string name="profile">Profile</string>
+    <string name="name">Name</string>
+    <string name="email">Email</string>
+    <string name="date">Date of birth</string>
+    <string name="passwordSetting">Password</string>
+    <string name="logOut">Log out</string>
+    <string name="log">Pressing this will log you out.</string>
+    <string name="deleteAccount">Delete account</string>
+    <string name="delete">Pressing this will delete your account</string>
 </resources>

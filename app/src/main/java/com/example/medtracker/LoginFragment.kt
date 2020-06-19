@@ -120,9 +120,7 @@ class LoginFragment : Fragment() {
                         saveToken(user!!.data) //save the token to sharedpreferences
                         startMain() //start the main activity
                     }
-                }
                 is Result.Failure -> {
-                    println(result)
                     activity?.runOnUiThread {
                         Toast.makeText(
                             context,

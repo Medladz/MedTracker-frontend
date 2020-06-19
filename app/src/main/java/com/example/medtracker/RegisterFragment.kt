@@ -218,6 +218,7 @@ class RegisterFragment : Fragment() {
         //setting up the request
         Thread(Runnable {
             Fuel.post("http://83.87.187.173:8080/users")
+
                 .jsonBody(registerFormBody)
                 .also { println(it) }
                 .response { result ->
@@ -228,7 +229,6 @@ class RegisterFragment : Fragment() {
                             }
                         }
                         is Result.Failure -> {
-                            println(result)
                             activity?.runOnUiThread {
                                 showError(emailLay, "Your email was already found in our database")
                             }
@@ -254,6 +254,7 @@ class RegisterFragment : Fragment() {
         //setting up the request
         Thread(Runnable {
             Fuel.post("http://83.87.187.173:8080/users/login")
+
                 .jsonBody(registerFormBody)
                 .also { println(it) }
                 .responseObject(LoginFragment.User.Deserializer()) { request, response, result ->
