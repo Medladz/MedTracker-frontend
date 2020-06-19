@@ -2,15 +2,20 @@ package com.example.medtracker
 
 
 import android.content.Intent
-import android.os.Build
 import android.os.Bundle
-import androidx.annotation.RequiresApi
 import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.github.kittinunf.fuel.Fuel
+import com.github.kittinunf.fuel.core.*
+import com.github.kittinunf.fuel.core.extensions.authentication
+import com.github.kittinunf.fuel.core.extensions.jsonBody
+import com.github.kittinunf.result.Result
+import com.google.gson.Gson
 import com.google.gson.GsonBuilder
+import com.google.gson.JsonArray
+import com.google.gson.JsonObject
 import kotlinx.android.synthetic.main.activity_new_substance.*
-import okhttp3.*
-import java.io.IOException
+import java.util.*
 
 class NewSubstance : FragmentActivity() {
 
@@ -29,25 +34,49 @@ class NewSubstance : FragmentActivity() {
 
         }
 
-        fetchJson(apiToken)
+        if (apiToken != null) {
+            fetchJson(apiToken)
+        } else {
+            val intent = Intent(this, LogActivity::class.java).apply {
+            }
+            startActivity(intent)
+            finish()
+        }
     }
-    fun fetchJson(t : String?){
-        val apiUrl = "http://192.168.43.193:8080/creators/$t/drugs?withVerified=false"
-        val request = Request.Builder().url(apiUrl).build()
-        val client = OkHttpClient()
-        client.newCall(request).enqueue(object: Callback{
-            override fun onResponse(call: Call, response: Response) {
-                val body = response.body?.string()
-                val gson = GsonBuilder().create()
-                val drugFeed = gson.fromJson(body, DrugFeed::class.java)
-                runOnUiThread {
-                    Substance_recyclerview.adapter = SubstanceAdapter(drugFeed)
+    fun fetchJson(t : String) {
+        //setting up the request
+        Thread(Runnable {
+            Fuel.get("http://83.87.187.173:8080/drugs?include=components,brands,sources,containers&withVerified=false")
+                .authentication()
+                .bearer(t)
+                .also { println(it) }
+                .responseObject(DrugFeed.Deserializer()) { result ->
+
+                    when (result) {
+                        is Result.Success -> {
+                            println(result)
+                            runOnUiThread {
+                                Substance_recyclerview.adapter = SubstanceAdapter(result.value)
+                            }
+                        }
+                        is Result.Failure -> {
+                            println(result)
+                        }
+                    }
                 }
-            }
-            override fun onFailure(call: Call, e: IOException) {
-                println("failed to execute")
-            }
-        })
+        }).start()
+    }
+    data class DrugFeed (val data: List<drugdata>) {
+
+    class drugdata (val id: Int, val type: String, val attributes: attributes)
+
+    class attributes (val name: String, val thumbnailURL:String)
+
+        //User Deserializer
+        class Deserializer : ResponseDeserializable<DrugFeed> {
+            override fun deserialize(content: String) = Gson().fromJson(content, DrugFeed::class.java)
+        }
+
     }
 }
 
