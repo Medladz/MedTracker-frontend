@@ -79,5 +79,3 @@ class NewSubstance : FragmentActivity() {
 
     }
 }
-
-
