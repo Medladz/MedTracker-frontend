@@ -8,9 +8,6 @@ class CalenderAdapter(fm: FragmentManager) : FragmentPagerAdapter(fm) {
 
     override fun getItem(position: Int): Fragment {
         return when (position) {
-            0 -> {
-                Tab1Day()
-            }
             else -> {
                 return Tab2Week()
             }
@@ -20,12 +17,11 @@ class CalenderAdapter(fm: FragmentManager) : FragmentPagerAdapter(fm) {
 
 
     override fun getCount(): Int {
-        return 2
+        return 1
     }
 
     override fun getPageTitle(position: Int): CharSequence {
         return when (position) {
-            0 -> "Dag"
             else -> {
                 return "Week"
             }

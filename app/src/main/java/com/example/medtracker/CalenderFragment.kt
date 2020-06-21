@@ -27,7 +27,6 @@ class CalenderFragment : Fragment() {
         val fragmentAdapter = fragmentManager?.let { CalenderAdapter(it) }
         viewPager.adapter = fragmentAdapter
 
-        tabLayout.setupWithViewPager(viewPager)
 
     }
 
