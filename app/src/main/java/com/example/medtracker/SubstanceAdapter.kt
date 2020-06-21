@@ -27,17 +27,14 @@ class SubstanceAdapter(val drugFeed: DrugFeed): RecyclerView.Adapter<CustomViewH
         holder.view.Percantage.text = drug.type
         val thumbnailimageview = holder.view.Preview_image
         Picasso.with(holder.view.context).load(drug.attributes.thumbnailURL).into(thumbnailimageview)
-
-        // maakt de video publicly accesable
+        //posts the made changes to the holder
         holder.drug = drug
 
     }
 
 }
 
-// video is de functie waar de json data binnenkomt
-class CustomViewHolder(val view: View, var drug: Drugdata?= null): RecyclerView.ViewHolder(view){
-    //hier stuur je de info via een intent mee naar de add_substance
+class CustomViewHolder(val view: View, var drug: Drugdata?= null): RecyclerView.ViewHolder(view){ // inst the intent names
     companion object{
         const val SubstanceNameKey = "Substance title"
         const val SubstanceIdKey = "Substance Id"
@@ -45,10 +42,9 @@ class CustomViewHolder(val view: View, var drug: Drugdata?= null): RecyclerView.
         const val SubstanceImageKey = "Substance Image"
     }
 
-    init {
+    init { // send the extra's with the intent
         view.setOnClickListener {
             val intent = Intent(view.context, AddSubstance::class.java)
-            //meesturen van gegevens naar de addsubstance pagina
 
             intent.putExtra(SubstanceIdKey, drug?.id.toString())
             intent.putExtra(SubstancePercentageKey, drug?.type)
