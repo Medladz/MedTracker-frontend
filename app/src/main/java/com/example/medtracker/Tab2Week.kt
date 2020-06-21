@@ -1,5 +1,6 @@
 package com.example.medtracker
 
+import android.app.Activity
 import android.os.Bundle
 import android.util.AttributeSet
 import android.util.Log
@@ -10,6 +11,7 @@ import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.RelativeLayout
 import android.widget.TextView
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import com.github.kittinunf.fuel.Fuel
 import com.github.kittinunf.fuel.core.FuelManager
@@ -21,6 +23,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 import com.github.kittinunf.fuel.core.ResponseDeserializable
 import com.github.kittinunf.result.Result
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlin.random.Random
 
 class Tab2Week : Fragment() {
@@ -42,14 +45,14 @@ class Tab2Week : Fragment() {
         val apiToken = sharedPreferences?.getString("Token", null)
 
         val weekDayArray = arrayListOf(Monday_date_text,Tuesday_date_text, Wednesday_date_text, Thursday_date_text, Friday_date_text ,Saturday_date_text ,Sunday_date_text)
-        var weekLayout =   arrayListOf(Monday_layout,Tuesday_layout, Wednesday_layout, Thursday_layout, Friday_layout ,Saturday_layout ,Sunday_layout)
+        var weekLayout =   arrayListOf(lLayMon,lLayTue, lLayWed, lLayThu, lLayFri ,lLaySat ,lLaySun)
         val weekDateArray = mutableMapOf<String,TextView>()
         val weekLayoutArray = mutableMapOf<TextView, LinearLayout>()
         var currentWeek: Calendar = Calendar.getInstance()
         currentWeek.set(Calendar.DAY_OF_WEEK,Calendar.MONDAY)
         var layoutInt = 0
         weekDayArray.forEach{
-            var weekDay = SimpleDateFormat("yyyy-MM-dd").format(currentWeek.getTimeInMillis())
+                var weekDay = SimpleDateFormat("yyyy-MM-dd").format(currentWeek.getTimeInMillis())
             weekDateArray[weekDay] = it
             weekLayoutArray[it] = weekLayout[layoutInt]
             it.setText(SimpleDateFormat("dd-MM").format(currentWeek.getTimeInMillis()))
@@ -58,7 +61,7 @@ class Tab2Week : Fragment() {
         }
 
 
-        var r: kotlin.random.Random = Random
+        var r = Random
         //setting up the request
         FuelManager.instance.removeAllRequestInterceptors()
         if (apiToken != null) {
@@ -76,14 +79,17 @@ class Tab2Week : Fragment() {
                                         var singleEventView = TextView(activity,attr)
                                         singleEventView.text = it.title
                                         singleEventView.setId(r.nextInt((100-10)+1)+10)
-                                        var weekDay: LinearLayout? = weekLayoutArray[weekDateArray[SimpleDateFormat("yyyy-MM-dd").format(it.consumedAt.millis)]]
-                                        weekDay!!.addView(singleEventView)
-                                        println(singleEventView)
+                                        var weekDay = weekLayoutArray[weekDateArray[SimpleDateFormat("yyyy-MM-dd").format(it.consumedAt.millis)]]
 
+                                        weekDay!!.addView(singleEventView)
+
+                                        weekDay.setOnClickListener {
+                                            println(it)
+                                            activity!!.layoutInflater!!.inflate(R.layout.calender_day, container, false)
+                                        }
                                     }
                                 }
                                 }
-                                println(result.value[0].title)
 
                             }
                             is Result.Failure -> {
@@ -100,10 +106,4 @@ class Tab2Week : Fragment() {
 
     }
 }
-
-fun fillWeek(agendaArray: JSONArray, weekDateArray: MutableMap<String, TextView>){
-
-}
-
-
 
