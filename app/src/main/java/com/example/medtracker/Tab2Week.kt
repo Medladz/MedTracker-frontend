@@ -21,6 +21,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 import com.github.kittinunf.fuel.core.ResponseDeserializable
 import com.github.kittinunf.result.Result
+import kotlin.random.Random
 
 class Tab2Week : Fragment() {
 
@@ -38,12 +39,8 @@ class Tab2Week : Fragment() {
         super.onActivityCreated(savedInstanceState)
 
         val sharedPreferences = activity?.getSharedPreferences("Token", 0)
-        val editor = sharedPreferences?.edit()
-        editor?.putString("Token", "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJjb20ubWVkdHJhY2tlciIsInVzZXJJZCI6Mn0.o9moOSmAis83H0iFEzKa5FNuyHAKeGQB1_2KFRkoxfx5m6N_qj8oQcIOuXGaSQp2-Me0NWm9-8e3rRRGK3gQcw")
-        editor?.apply()
-
-
         val apiToken = sharedPreferences?.getString("Token", null)
+
         val weekDayArray = arrayListOf(Monday_date_text,Tuesday_date_text, Wednesday_date_text, Thursday_date_text, Friday_date_text ,Saturday_date_text ,Sunday_date_text)
         var weekLayout =   arrayListOf(Monday_layout,Tuesday_layout, Wednesday_layout, Thursday_layout, Friday_layout ,Saturday_layout ,Sunday_layout)
         val weekDateArray = mutableMapOf<String,TextView>()
@@ -58,9 +55,10 @@ class Tab2Week : Fragment() {
             it.setText(SimpleDateFormat("dd-MM").format(currentWeek.getTimeInMillis()))
             currentWeek.add(Calendar.DAY_OF_YEAR, 1)
             layoutInt++
-
         }
-        var agendaArray = JSONArray()
+
+
+        var r: kotlin.random.Random = Random
         //setting up the request
         FuelManager.instance.removeAllRequestInterceptors()
         if (apiToken != null) {
@@ -69,59 +67,29 @@ class Tab2Week : Fragment() {
                 .responseObject(CalenderDeserializer()) { result ->
                         when (result) {
                             is Result.Success -> {
-                                println(result.value)
+                                result.value.forEach{
+                                    if(weekDateArray.containsKey(SimpleDateFormat("yyyy-MM-dd").format(it.consumedAt.millis))){
+                                    activity!!.runOnUiThread {
+
+                                        val parser: XmlPullParser = resources.getXml(R.xml.eventstyle)
+                                        val attr: AttributeSet = Xml.asAttributeSet(parser)
+                                        var singleEventView = TextView(activity,attr)
+                                        singleEventView.text = it.title
+                                        singleEventView.setId(r.nextInt((100-10)+1)+10)
+                                        var weekDay: LinearLayout? = weekLayoutArray[weekDateArray[SimpleDateFormat("yyyy-MM-dd").format(it.consumedAt.millis)]]
+                                        weekDay!!.addView(singleEventView)
+                                        println(singleEventView)
+
+                                    }
+                                }
+                                }
+                                println(result.value[0].title)
 
                             }
                             is Result.Failure -> {
                                 println(result)
                             }
                         }
-
-//                        var i = 0
-//                        while (agendaArray.length() > i) { //IT here is ONE agenda ENTRY
-//                            var filteredArray = mutableMapOf<String,String>()
-//                            var filteredDrugArray = mutableMapOf<String,String>()
-//                            var entryArray = agendaArray.getJSONObject(i).get("consumedAt").toString().replace("{", "").replace("}","").split(",")
-//                            var drugArray = agendaArray.getJSONObject(i).get("drug").toString().replaceFirst("{", "").replaceFirst("}","").replaceFirst("{", "").replaceFirst("}","").split(",")
-//                            drugArray.forEach{
-//                                var drugTempArr = it.replace("\"", "").split(":")
-//                                if(drugTempArr[0] == "name" && drugTempArr[1] != "null" ){
-//                                    filteredDrugArray[drugTempArr[0]] = drugTempArr[1]
-//                                }
-//                            }
-//                            entryArray.forEach {
-//                                var entryTempArr = it.replace("\"", "").split(":")
-//                                filteredArray[entryTempArr[0]] = entryTempArr[1]
-//                            }
-//                            if(weekDateArray.containsKey(SimpleDateFormat("yyyy-MM-dd").format(filteredArray["millis"]!!.toLong()))){
-//                                activity!!.runOnUiThread {
-//
-//                                    val parser: XmlPullParser = resources.getXml(R.xml.eventstyle)
-//                                    try {
-//                                        parser.next()
-//                                        parser.nextTag()
-//                                    } catch (e: Exception) {
-//                                        e.printStackTrace()
-//                                    }
-//
-//                                    val attr: AttributeSet = Xml.asAttributeSet(parser)
-//                                    var singleEventView = TextView(activity,attr)
-//                                    singleEventView.text = filteredDrugArray.get("name")
-//                                    singleEventView.setId(i)
-//                                    var weekDay: LinearLayout? = weekLayoutArray[weekDateArray[SimpleDateFormat("yyyy-MM-dd").format(filteredArray["millis"]!!.toLong())]]
-//                                    weekDay!!.addView(singleEventView)
-//                                    println(singleEventView)
-//
-//                                }
-//                            }
-
-
-//                            i++
-//                        }
-//                    }, failure = { error ->
-//                        Log.e("Failure", error.toString())
-//                    })
-
                 }
         }
 
