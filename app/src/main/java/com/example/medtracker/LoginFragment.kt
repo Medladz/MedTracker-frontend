@@ -65,8 +65,6 @@ class LoginFragment : Fragment() {
                     showError(loginEmailLay, "Your email is too long")
                 } else if (content.isEmpty()) {
                     showError(loginEmailLay, "You need to fill in an email")
-                } else if (!TextUtils.isEmpty(content) && !android.util.Patterns.EMAIL_ADDRESS.matcher(content).matches()) {
-                    showError(loginEmailLay, "Your email is invalid")
                 } else loginEmailLay.error = null
             }
         })
@@ -74,10 +72,13 @@ class LoginFragment : Fragment() {
 
     private fun setClickLogin() {
         loginButton.setOnClickListener {
+            val content = loginEmail.text.toString().trim()
             if(loginEmailLay.error != null || loginEmail.text!!.isEmpty()) {
                 loginEmail.requestFocus()
             } else if(loginPasswordLay.error != null || loginPassword.text!!.isEmpty()) {
                 loginPassword.requestFocus()
+            } else if (!TextUtils.isEmpty(content) && !android.util.Patterns.EMAIL_ADDRESS.matcher(content).matches()) {
+                showError(loginEmailLay, "Your email is invalid")
             } else post()
         }
     }

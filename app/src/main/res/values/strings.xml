@@ -48,4 +48,9 @@
     <string name="log">Pressing this will log you out.</string>
     <string name="deleteAccount">Delete account</string>
     <string name="delete">Pressing this will delete your account</string>
+    <string name="addToCalender">add to calender</string>
+    <string name="hintTitle">Title</string>
+    <string name="hintQuantity">Quantity</string>
+    <string name="hintNote">Note</string>
+    <string name="hintUnit">Unit</string>
 </resources>

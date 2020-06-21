@@ -72,13 +72,15 @@ class RegisterFragment : Fragment() {
 
             override fun afterTextChanged(s: Editable?) {
                 val content = email.text.toString().trim()
-                if (content.length > 254) {
-                    showError(emailLay, "Your email is too long")
-                } else if (content.isEmpty()) {
-                    showError(emailLay, "You need to fill in an email")
-                } else if (!TextUtils.isEmpty(content) && !android.util.Patterns.EMAIL_ADDRESS.matcher(content).matches()) {
-                    showError(emailLay, "Your email is invalid")
-                } else emailLay.error = null
+                when {
+                    content.length > 254 -> {
+                        showError(emailLay, "Your email is too long")
+                    }
+                    content.isEmpty() -> {
+                        showError(emailLay, "You need to fill in an email")
+                    }
+                    else -> emailLay.error = null
+                }
             }
         })
     }
@@ -194,6 +196,7 @@ class RegisterFragment : Fragment() {
 
     private fun setClickRegister() { // function to checks all the inputs, before trying to post
         registerButton.setOnClickListener {
+            val content = email.text.toString().trim()
             if (usernameLay.error != null || username.text!!.isEmpty()) {
                 username.requestFocus()
             } else if (emailLay.error != null || email.text!!.isEmpty()) {
@@ -203,22 +206,23 @@ class RegisterFragment : Fragment() {
             } else if (datePicker.text!!.isEmpty()) {
                 activity?.currentFocus?.clearFocus()
                 datePicker.performClick()
+            } else if (!TextUtils.isEmpty(content) && !android.util.Patterns.EMAIL_ADDRESS.matcher(content).matches()) {
+                showError(emailLay, "Your email is invalid")
             } else post()
         }
     }
 
     private fun post() { //post function for posting the user
         //getting text from the form
-        val username = username.text.toString()
-        val email = email.text.toString()
-        val password = password.text.toString().sha512() //already hashed
-        val dateOfBirth = datePicker.text.toString()
-        val registerFormBody = "{\"username\":\"$username\",\"email\":\"$email\", \"password\":\"$password\",\"birthday\":\"$dateOfBirth\"}"
+        var username = username.text.toString()
+        var email = email.text.toString()
+        var password = password.text.toString().sha512() //already hashed
+        var dateOfBirth = datePicker.text.toString()
+        var registerFormBody = "{\"username\":\"$username\",\"email\":\"$email\", \"password\":\"$password\",\"birthday\":\"$dateOfBirth\"}"
 
         //setting up the request
         Thread(Runnable {
             Fuel.post("http://83.87.187.173:8080/users")
-
                 .jsonBody(registerFormBody)
                 .also { println(it) }
                 .response { result ->
