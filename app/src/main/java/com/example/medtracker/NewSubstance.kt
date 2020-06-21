@@ -46,11 +46,11 @@ class NewSubstance : FragmentActivity() {
     fun fetchJson(t : String) {
         //setting up the request
         Thread(Runnable {
-            Fuel.get("http://83.87.187.173:8080/drugs?include=components,brands,sources,containers&withVerified=false")
+            Fuel.get("http://83.87.187.173:8080/drugs?include=components,brands,sources,containers&withVerified=true")
                 .authentication()
                 .bearer(t)
                 .also { println(it) }
-                .responseObject(DrugFeed.Deserializer()) { result ->
+                .responseObject(Deserializer()) { result ->
 
                     when (result) {
                         is Result.Success -> {
@@ -66,16 +66,5 @@ class NewSubstance : FragmentActivity() {
                 }
         }).start()
     }
-    data class DrugFeed (val data: List<drugdata>) {
 
-    class drugdata (val id: Int, val type: String, val attributes: attributes)
-
-    class attributes (val name: String, val thumbnailURL:String)
-
-        //User Deserializer
-        class Deserializer : ResponseDeserializable<DrugFeed> {
-            override fun deserialize(content: String) = Gson().fromJson(content, DrugFeed::class.java)
-        }
-
-    }
 }

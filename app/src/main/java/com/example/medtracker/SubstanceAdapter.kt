@@ -8,10 +8,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.substance_row.view.*
 
-class SubstanceAdapter(val drugFeed: NewSubstance.DrugFeed): RecyclerView.Adapter<CustomViewHolder>(){
+class SubstanceAdapter(val drugFeed: DrugFeed): RecyclerView.Adapter<CustomViewHolder>(){
 
     override fun getItemCount(): Int {
-        println(drugFeed.data.count())
         return drugFeed.data.count()
     }
 
@@ -22,7 +21,7 @@ class SubstanceAdapter(val drugFeed: NewSubstance.DrugFeed): RecyclerView.Adapte
     }
 
     override fun onBindViewHolder(holder: CustomViewHolder, position: Int) {
-        val drug = drugFeed.data.get(position)
+        val drug = drugFeed.data[position]
         holder.view.Substance_name.text = drug.attributes.name
         holder.view.Liters.text = drug.id.toString()
         holder.view.Percantage.text = drug.type
@@ -30,18 +29,18 @@ class SubstanceAdapter(val drugFeed: NewSubstance.DrugFeed): RecyclerView.Adapte
         Picasso.with(holder.view.context).load(drug.attributes.thumbnailURL).into(thumbnailimageview)
 
         // maakt de video publicly accesable
-        holder?.drug = drug
+        holder.drug = drug
 
     }
 
 }
 
 // video is de functie waar de json data binnenkomt
-class CustomViewHolder(val view: View, var drug: NewSubstance.DrugFeed.drugdata?= null): RecyclerView.ViewHolder(view){
+class CustomViewHolder(val view: View, var drug: Drugdata?= null): RecyclerView.ViewHolder(view){
     //hier stuur je de info via een intent mee naar de add_substance
     companion object{
         const val SubstanceNameKey = "Substance title"
-        const val SubstanceLiterKey = "Substance liter"
+        const val SubstanceIdKey = "Substance Id"
         const val SubstancePercentageKey = "Substance Percentage"
         const val SubstanceImageKey = "Substance Image"
     }
@@ -49,13 +48,12 @@ class CustomViewHolder(val view: View, var drug: NewSubstance.DrugFeed.drugdata?
     init {
         view.setOnClickListener {
             val intent = Intent(view.context, AddSubstance::class.java)
-
             //meesturen van gegevens naar de addsubstance pagina
-            intent.putExtra(SubstanceNameKey, drug?.attributes?.name)
-            intent.putExtra(SubstanceLiterKey, drug?.id.toString())
+
+            intent.putExtra(SubstanceIdKey, drug?.id.toString())
             intent.putExtra(SubstancePercentageKey, drug?.type)
             intent.putExtra(SubstanceImageKey, drug?.attributes?.thumbnailURL)
-
+            intent.putExtra(SubstanceNameKey, drug?.attributes?.name)
             view.context.startActivity(intent)
         }
     }
