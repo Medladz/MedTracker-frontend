@@ -36,7 +36,7 @@ class AddSubstance : AppCompatActivity(){
 
 
             AddSubstance.setOnClickListener {
-                if (bodyTitle.toString() == "" || q.toString() == "" || unit.toString() == "") { //TODO check q also for 000.00
+                if (bodyTitle.text.toString() != "" || q.text.toString() != "" || unit.text.toString() != "") { //TODO check q also for 000.00
                     if (apiToken != null) {
                         postJson(apiToken, Id)
                     } else {
@@ -45,6 +45,7 @@ class AddSubstance : AppCompatActivity(){
                         finish()
                     }
                 } else {
+                    println(bodyTitle.text.toString() + "-" + q.text.toString() + "-" + unit.text.toString())
                     Toast.makeText(this, "You have not entered everything", Toast.LENGTH_LONG)
                         .show()
                 }
