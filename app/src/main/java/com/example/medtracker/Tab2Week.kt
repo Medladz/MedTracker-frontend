@@ -7,6 +7,7 @@ import android.util.Xml
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
 import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.fragment.app.Fragment
@@ -19,7 +20,7 @@ import org.xmlpull.v1.XmlPullParser
 import java.text.SimpleDateFormat
 import java.util.*
 import com.github.kittinunf.fuel.core.ResponseDeserializable
-import com.google.gson.Gson
+import com.github.kittinunf.result.Result
 
 class Tab2Week : Fragment() {
 
@@ -44,15 +45,20 @@ class Tab2Week : Fragment() {
 
         val apiToken = sharedPreferences?.getString("Token", null)
         val weekDayArray = arrayListOf(Monday_date_text,Tuesday_date_text, Wednesday_date_text, Thursday_date_text, Friday_date_text ,Saturday_date_text ,Sunday_date_text)
+        var weekLayout =   arrayListOf(Monday_layout,Tuesday_layout, Wednesday_layout, Thursday_layout, Friday_layout ,Saturday_layout ,Sunday_layout)
         val weekDateArray = mutableMapOf<String,TextView>()
+        val weekLayoutArray = mutableMapOf<TextView, LinearLayout>()
         var currentWeek: Calendar = Calendar.getInstance()
         currentWeek.set(Calendar.DAY_OF_WEEK,Calendar.MONDAY)
+        var layoutInt = 0
         weekDayArray.forEach{
             var weekDay = SimpleDateFormat("yyyy-MM-dd").format(currentWeek.getTimeInMillis())
             weekDateArray[weekDay] = it
-            println(currentWeek.getTimeInMillis())
+            weekLayoutArray[it] = weekLayout[layoutInt]
             it.setText(SimpleDateFormat("dd-MM").format(currentWeek.getTimeInMillis()))
             currentWeek.add(Calendar.DAY_OF_YEAR, 1)
+            layoutInt++
+
         }
         var agendaArray = JSONArray()
         //setting up the request
@@ -60,58 +66,69 @@ class Tab2Week : Fragment() {
         if (apiToken != null) {
             Fuel.get("http://192.168.1.2:8080/agendaEntries?include=drug") //TODO make this request to server
                 .header("Authorization", "Bearer " + apiToken)
-                .responseJson { request, response, result ->
-                    result.fold(success = { json ->
-                        agendaArray = json.array()
-                        var i = 0
-                        while (agendaArray.length() > i) { //IT here is ONE agenda ENTRY
-                            var filteredArray = mutableMapOf<String,String>()
-                            var filteredDrugArray = mutableMapOf<String,String>()
-                            var entryArray = agendaArray.getJSONObject(i).get("consumedAt").toString().replace("{", "").replace("}","").split(",")
-                            var drugArray = agendaArray.getJSONObject(i).get("drug").toString().replaceFirst("{", "").replaceFirst("}","").split(",")
-                            drugArray.forEach{
-                                var drugTempArr = it.replace("\"", "").split(":")
-                                filteredDrugArray[drugTempArr[0]] = drugTempArr[1]
-                                println(filteredDrugArray)
+                .responseObject(CalenderDeserializer()) { result ->
+                        when (result) {
+                            is Result.Success -> {
+                                println(result.value)
+
                             }
-                            entryArray.forEach {
-                                var entryTempArr = it.replace("\"", "").split(":")
-                                filteredArray[entryTempArr[0]] = entryTempArr[1]
+                            is Result.Failure -> {
+                                println(result)
                             }
-                            println(filteredDrugArray)
-                            if(weekDateArray.containsKey(SimpleDateFormat("yyyy-MM-dd").format(filteredArray["millis"]!!.toLong()))){
-                                    activity!!.runOnUiThread {
-
-                                        val parser: XmlPullParser = resources.getXml(R.xml.eventstyle)
-                                        try {
-                                            parser.next()
-                                            parser.nextTag()
-                                        } catch (e: Exception) {
-                                            e.printStackTrace()
-                                        }
-
-                                        val attr: AttributeSet = Xml.asAttributeSet(parser)
-                                        var singleEventView = TextView(activity,attr)
-                                        singleEventView.text = filteredDrugArray.get("name")
-                                        var weekDay: RelativeLayout = Monday_layout
-                                        weekDay.addView(singleEventView)
-
-
-
-//                                        weekDateArray[SimpleDateFormat("yyyy-MM-dd").format(filteredArray["millis"]!!.toLong())]!!.text = filteredArray.get("name")
-                                    }
-                                }
-
-
-                            i++
                         }
-                    }, failure = { error ->
-                        Log.e("Failure", error.toString())
-                    })
+
+//                        var i = 0
+//                        while (agendaArray.length() > i) { //IT here is ONE agenda ENTRY
+//                            var filteredArray = mutableMapOf<String,String>()
+//                            var filteredDrugArray = mutableMapOf<String,String>()
+//                            var entryArray = agendaArray.getJSONObject(i).get("consumedAt").toString().replace("{", "").replace("}","").split(",")
+//                            var drugArray = agendaArray.getJSONObject(i).get("drug").toString().replaceFirst("{", "").replaceFirst("}","").replaceFirst("{", "").replaceFirst("}","").split(",")
+//                            drugArray.forEach{
+//                                var drugTempArr = it.replace("\"", "").split(":")
+//                                if(drugTempArr[0] == "name" && drugTempArr[1] != "null" ){
+//                                    filteredDrugArray[drugTempArr[0]] = drugTempArr[1]
+//                                }
+//                            }
+//                            entryArray.forEach {
+//                                var entryTempArr = it.replace("\"", "").split(":")
+//                                filteredArray[entryTempArr[0]] = entryTempArr[1]
+//                            }
+//                            if(weekDateArray.containsKey(SimpleDateFormat("yyyy-MM-dd").format(filteredArray["millis"]!!.toLong()))){
+//                                activity!!.runOnUiThread {
+//
+//                                    val parser: XmlPullParser = resources.getXml(R.xml.eventstyle)
+//                                    try {
+//                                        parser.next()
+//                                        parser.nextTag()
+//                                    } catch (e: Exception) {
+//                                        e.printStackTrace()
+//                                    }
+//
+//                                    val attr: AttributeSet = Xml.asAttributeSet(parser)
+//                                    var singleEventView = TextView(activity,attr)
+//                                    singleEventView.text = filteredDrugArray.get("name")
+//                                    singleEventView.setId(i)
+//                                    var weekDay: LinearLayout? = weekLayoutArray[weekDateArray[SimpleDateFormat("yyyy-MM-dd").format(filteredArray["millis"]!!.toLong())]]
+//                                    weekDay!!.addView(singleEventView)
+//                                    println(singleEventView)
+//
+//                                }
+//                            }
+
+
+//                            i++
+//                        }
+//                    }, failure = { error ->
+//                        Log.e("Failure", error.toString())
+//                    })
 
                 }
         }
 
+
+    }
+    override fun onCreate(savedInstanceState: Bundle?){
+        super.onCreate(savedInstanceState)
 
     }
 }
