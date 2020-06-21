@@ -37,5 +37,6 @@
     <string name="password_strength_strong">Strong</string>
     <string name="password_strength_very_strong">Very strong</string>
     <string name="passwordRules">Your password must be at least 8 characters. With at least 1 number and 1 special character</string>
+    <string name="MaText" />
 
 </resources>

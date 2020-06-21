@@ -14,6 +14,7 @@
             android:orientation="vertical">
 
             <RelativeLayout
+                android:id="@+id/Monday_layout"
                 android:layout_width="match_parent"
                 android:layout_height="123dp"
                 android:layout_marginStart="25dp"
@@ -27,7 +28,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:padding="20dp"
-                    android:text="Ma" />
+                    android:text="Mon"/>
 
                 <TextView
                     android:id="@+id/Monday_date_text"
@@ -35,7 +36,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
                     android:padding="20dp"
-                    android:text="6" />
+                    android:text="" />
 
             </RelativeLayout>
             <RelativeLayout
@@ -150,7 +151,7 @@
                 android:background="@drawable/button_background">
 
                 <TextView
-                    android:id="@+id/Saturdaytext"
+                    android:id="@+id/Saturday_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:padding="20dp"
@@ -176,7 +177,7 @@
                 android:background="@drawable/button_background">
 
                 <TextView
-                    android:id="@+id/Sundaytext"
+                    android:id="@+id/Sunday_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:padding="20dp"

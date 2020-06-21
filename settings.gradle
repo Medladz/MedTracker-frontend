@@ -1,2 +1,3 @@
 rootProject.name='MEDtracker'
 include ':app'
+enableFeaturePreview('GRADLE_METADATA')

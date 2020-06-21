@@ -10,21 +10,12 @@
         android:layout_height="match_parent"
         android:layout_margin="5dp"
         android:background="@drawable/container_panel">
-    <TextView
-        android:id="@+id/Genres"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Hier de genres"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="5dp"
-        android:textColor="@color/TextColor"/>
 
     <View
         android:id="@+id/devider"
         android:layout_width="match_parent"
         android:layout_height="0.5dp"
         android:layout_marginTop="2dp"
-        android:layout_below="@id/Genres"
         android:background="@android:color/darker_gray" />
 
         <com.google.android.material.tabs.TabLayout
@@ -46,6 +37,7 @@
         android:layout_below="@id/tabLayout"
         android:background="@android:color/darker_gray" />
 
+
     <androidx.viewpager.widget.ViewPager
         android:layout_marginTop="2dp"
         android:layout_width="match_parent"
@@ -56,5 +48,6 @@
         android:layout_below="@id/tabLayout">
 
     </androidx.viewpager.widget.ViewPager>
+
     </RelativeLayout>
 </RelativeLayout>
