@@ -3,6 +3,7 @@ package com.example.medtracker
 
 import android.content.Intent
 import android.os.Bundle
+import android.widget.Toast
 import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.github.kittinunf.fuel.Fuel
@@ -31,7 +32,11 @@ class NewSubstance : FragmentActivity() {
         floatingActionButton.setOnClickListener{
             val intent = Intent(this, MainActivity::class.java)
         startActivity(intent)
+        }
 
+        addSubstanceButton.setOnClickListener {
+            Toast.makeText(this, "feature coming soon", Toast.LENGTH_LONG)
+                .show()
         }
 
         if (apiToken != null) {
