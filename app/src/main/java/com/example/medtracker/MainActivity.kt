@@ -10,13 +10,10 @@ import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
 
-
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         val APIToken = getApiToken()
-
 
         if (APIToken == null) { //for checking the existence of the APItoken, if there is none, start LogActivity
             val intent = Intent(this, LogActivity::class.java).apply {
