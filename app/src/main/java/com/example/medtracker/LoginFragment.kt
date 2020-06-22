@@ -11,9 +11,11 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.github.kittinunf.fuel.Fuel
+import com.github.kittinunf.fuel.core.ResponseDeserializable
 import com.github.kittinunf.fuel.core.extensions.jsonBody
 import com.github.kittinunf.result.Result
 import com.google.android.material.textfield.TextInputLayout
+import com.google.gson.Gson
 import kotlinx.android.synthetic.main.fragment_login.*
 import java.security.MessageDigest
 
@@ -63,8 +65,6 @@ class LoginFragment : Fragment() {
                     showError(loginEmailLay, "Your email is too long")
                 } else if (content.isEmpty()) {
                     showError(loginEmailLay, "You need to fill in an email")
-                } else if (!TextUtils.isEmpty(content) && !android.util.Patterns.EMAIL_ADDRESS.matcher(content).matches()) {
-                    showError(loginEmailLay, "Your email is invalid")
                 } else loginEmailLay.error = null
             }
         })
@@ -72,10 +72,13 @@ class LoginFragment : Fragment() {
 
     private fun setClickLogin() {
         loginButton.setOnClickListener {
+            val content = loginEmail.text.toString().trim()
             if(loginEmailLay.error != null || loginEmail.text!!.isEmpty()) {
                 loginEmail.requestFocus()
             } else if(loginPasswordLay.error != null || loginPassword.text!!.isEmpty()) {
                 loginPassword.requestFocus()
+            } else if (!TextUtils.isEmpty(content) && !android.util.Patterns.EMAIL_ADDRESS.matcher(content).matches()) {
+                showError(loginEmailLay, "Your email is invalid")
             } else post()
         }
     }
@@ -102,35 +105,34 @@ class LoginFragment : Fragment() {
     private fun post() {
         val postEmail = loginEmail.text.toString()
         val postPassword = loginPassword.text.toString().sha512()
-        val registerFormBody = "{\"email\":\"$postEmail\",\"password\":\"$postPassword\"}"
+        val loginFormBody = "{\"email\":\"$postEmail\",\"password\":\"$postPassword\"}"
 
         //setting up the request
         Thread(Runnable {
-            val (_, _, result) = Fuel.post("http://192.168.1.2:8080/login") //TODO make this request to server
-                .jsonBody(registerFormBody)
+           Fuel.post("http://83.87.187.173:8080/users/login")
+                .jsonBody(loginFormBody)
                 .also { println(it) }
-                .responseString()
+                .responseObject(User.Deserializer()) { request, response, result ->
 
-            when (result) {
-                is Result.Success -> {
-                    activity?.runOnUiThread {
-                        if(result.value.toInt() != 0) { //TODO: when backend changes this to a string this check needs to change
-                            saveToken(result.value) //save the token to sharedpreferences
-                            startMain() //start the main activity
-                        } else {
+                    val (user, err) = result
+                    when (result) {
+                        is Result.Success -> {
                             activity?.runOnUiThread {
-                                Toast.makeText(context,"Your email or password is incorrect", Toast.LENGTH_LONG).show()
+                                saveToken(user!!.data) //save the token to sharedpreferences
+                                startMain() //start the main activity
+                            }
+                        }
+                            is Result.Failure -> {
+                                activity?.runOnUiThread {
+                                    Toast.makeText(
+                                        context,
+                                        "Your email or password is incorrect",
+                                        Toast.LENGTH_LONG
+                                    ).show()
+                                }
                             }
                         }
                     }
-                }
-                is Result.Failure -> {
-                    println(result)
-                    activity?.runOnUiThread {
-                        Toast.makeText(context,"Your email or password is incorrect", Toast.LENGTH_LONG).show()
-                    }
-                }
-            }
         }).start()
     }
 
@@ -142,5 +144,13 @@ class LoginFragment : Fragment() {
         val digest = MessageDigest.getInstance(algorithm)
         val bytes = digest.digest(this.toByteArray(Charsets.UTF_8))
         return bytes.fold("", { str, it -> str + "%02x".format(it) })
+    }
+    data class User(val data: String = "") {
+
+        //User Deserializer
+        class Deserializer : ResponseDeserializable<User> {
+            override fun deserialize(content: String) = Gson().fromJson(content, User::class.java)
+        }
+
     }
 }
