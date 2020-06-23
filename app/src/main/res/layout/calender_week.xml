@@ -11,7 +11,7 @@
         android:orientation="vertical">
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/Monday_layout"
+            android:id="@+id/MondayLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:minHeight="120dp"
@@ -23,7 +23,7 @@
             android:background="@drawable/button_background">
 
             <TextView
-                android:id="@+id/Monday_text"
+                android:id="@+id/MondayText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="20dp"
@@ -32,7 +32,7 @@
                 android:text="Mon"/>
 
             <TextView
-                android:id="@+id/Monday_date_text"
+                android:id="@+id/MondayDate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -46,13 +46,13 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/Monday_text">
+                app:layout_constraintTop_toBottomOf="@id/MondayText">
             </LinearLayout>
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/Tuesday_layout"
+            android:id="@+id/TuesdayLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:minHeight="120dp"
@@ -64,7 +64,7 @@
             android:background="@drawable/button_background">
 
             <TextView
-                android:id="@+id/Tuesday_text"
+                android:id="@+id/TuesdayText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="20dp"
@@ -73,7 +73,7 @@
                 android:text="Tue"/>
 
             <TextView
-                android:id="@+id/Tuesday_date_text"
+                android:id="@+id/TuesdayDate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -87,7 +87,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/Tuesday_text">
+                app:layout_constraintTop_toBottomOf="@id/TuesdayText">
             </LinearLayout>
 
 
@@ -95,7 +95,7 @@
 
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/Wednesday_layout"
+            android:id="@+id/WednesdayLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:minHeight="120dp"
@@ -107,7 +107,7 @@
             android:background="@drawable/button_background">
 
             <TextView
-                android:id="@+id/Wednesday_text"
+                android:id="@+id/WednesdayText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="20dp"
@@ -116,7 +116,7 @@
                 android:text="Wen"/>
 
             <TextView
-                android:id="@+id/Wednesday_date_text"
+                android:id="@+id/WednesdayDate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -130,13 +130,13 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/Wednesday_text">
+                app:layout_constraintTop_toBottomOf="@id/WednesdayText">
             </LinearLayout>
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/Thursday_layout"
+            android:id="@+id/ThursdayLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:minHeight="120dp"
@@ -148,7 +148,7 @@
             android:background="@drawable/button_background">
 
             <TextView
-                android:id="@+id/Thursday_text"
+                android:id="@+id/ThursdayText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="20dp"
@@ -157,7 +157,7 @@
                 android:text="Thu"/>
 
             <TextView
-                android:id="@+id/Thursday_date_text"
+                android:id="@+id/ThursdayDate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -171,13 +171,13 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/Thursday_text">
+                app:layout_constraintTop_toBottomOf="@id/ThursdayText">
             </LinearLayout>
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/Friday_layout"
+            android:id="@+id/FridayLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:minHeight="120dp"
@@ -189,7 +189,7 @@
             android:background="@drawable/button_background">
 
             <TextView
-                android:id="@+id/Friday_text"
+                android:id="@+id/FridayText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="20dp"
@@ -198,7 +198,7 @@
                 android:text="Fri"/>
 
             <TextView
-                android:id="@+id/Friday_date_text"
+                android:id="@+id/FridayDate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -212,13 +212,13 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/Friday_text">
+                app:layout_constraintTop_toBottomOf="@id/FridayText">
             </LinearLayout>
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/Saturday_layout"
+            android:id="@+id/SaturdayLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:minHeight="120dp"
@@ -230,7 +230,7 @@
             android:background="@drawable/button_background">
 
             <TextView
-                android:id="@+id/Saturday_text"
+                android:id="@+id/SaturdayText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="20dp"
@@ -239,7 +239,7 @@
                 android:text="Sat"/>
 
             <TextView
-                android:id="@+id/Saturday_date_text"
+                android:id="@+id/SaturdayDate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -253,14 +253,14 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/Saturday_text">
+                app:layout_constraintTop_toBottomOf="@id/SaturdayText">
             </LinearLayout>
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/Sunday_layout"
+            android:id="@+id/SundayLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:minHeight="120dp"
@@ -272,7 +272,7 @@
             android:background="@drawable/button_background">
 
             <TextView
-                android:id="@+id/Sunday_text"
+                android:id="@+id/SundayText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="20dp"
@@ -281,7 +281,7 @@
                 android:text="Sun"/>
 
             <TextView
-                android:id="@+id/Sunday_date_text"
+                android:id="@+id/SundayDate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -295,7 +295,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/Sunday_text">
+                app:layout_constraintTop_toBottomOf="@id/SundayText">
             </LinearLayout>
 
 

@@ -1,5 +1,6 @@
 package com.example.medtracker
 
+import android.app.Activity
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -26,10 +27,7 @@ class CalenderFragment : Fragment() {
 
         val fragmentAdapter = fragmentManager?.let { CalenderAdapter(it) }
         viewPager.adapter = fragmentAdapter
-
-
     }
-
 
 }
 
