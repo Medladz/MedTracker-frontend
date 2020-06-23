@@ -7,16 +7,9 @@ import android.widget.Toast
 import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.github.kittinunf.fuel.Fuel
-import com.github.kittinunf.fuel.core.*
 import com.github.kittinunf.fuel.core.extensions.authentication
-import com.github.kittinunf.fuel.core.extensions.jsonBody
 import com.github.kittinunf.result.Result
-import com.google.gson.Gson
-import com.google.gson.GsonBuilder
-import com.google.gson.JsonArray
-import com.google.gson.JsonObject
 import kotlinx.android.synthetic.main.activity_new_substance.*
-import java.util.*
 
 class NewSubstance : FragmentActivity() {
 
