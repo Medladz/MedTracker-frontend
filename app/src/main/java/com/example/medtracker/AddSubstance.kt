@@ -31,8 +31,9 @@ class AddSubstance : AppCompatActivity(){
 
             val name = findViewById<TextView>(R.id.Substance)
             name.text = intent.getStringExtra(CustomViewHolder.SubstanceNameKey)
+            println(intent.getStringExtra((CustomViewHolder.SubstanceImageKey)))
             val image = findViewById<ImageView>(R.id.PreviewImage)
-            Picasso.with(this).load(intent.getStringExtra(CustomViewHolder.SubstanceImageKey)).into(image)
+            Picasso.with(this).load(intent.getStringExtra(CustomViewHolder.SubstanceImageKey)).fit().centerCrop().into(image)
 
 
             AddSubstance.setOnClickListener {
