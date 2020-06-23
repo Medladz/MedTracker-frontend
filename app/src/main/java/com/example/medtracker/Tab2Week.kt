@@ -21,11 +21,7 @@ import kotlin.random.Random
 
 class Tab2Week : Fragment() {
 
-    val weekDayArray = arrayListOf(MondayDate,TuesdayDate, WednesdayDate, ThursdayDate, FridayDate ,SaturdayDate ,SundayDate)
-    var weekLayout =   arrayListOf(lLayMon,lLayTue, lLayWed, lLayThu, lLayFri ,lLaySat ,lLaySun)
-    val weekDateArray = mutableMapOf<String,TextView>()
-    val weekLayoutArray = mutableMapOf<TextView, LinearLayout>()
-    var currentWeek: Calendar = Calendar.getInstance()
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -37,8 +33,14 @@ class Tab2Week : Fragment() {
     }
 
 
+
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+        val weekDayArray = arrayListOf(MondayDate,TuesdayDate, WednesdayDate, ThursdayDate, FridayDate ,SaturdayDate ,SundayDate)
+        var weekLayout =   arrayListOf(lLayMon,lLayTue, lLayWed, lLayThu, lLayFri ,lLaySat ,lLaySun)
+        val weekDateArray = mutableMapOf<String,TextView>()
+        val weekLayoutArray = mutableMapOf<TextView, LinearLayout>()
+        var currentWeek: Calendar = Calendar.getInstance()
         //Get the API login Token to use as authorization on the Fuel request
         val sharedPreferences = activity?.getSharedPreferences("Token", 0)
         val apiToken = sharedPreferences?.getString("Token", null)
@@ -104,3 +106,72 @@ class Tab2Week : Fragment() {
 
 }
 
+=======
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+
+        val sharedPreferences = activity?.getSharedPreferences("Token", 0)
+        val apiToken = sharedPreferences?.getString("Token", null)
+
+        val weekDayArray = arrayListOf(Monday_date_text,Tuesday_date_text, Wednesday_date_text, Thursday_date_text, Friday_date_text ,Saturday_date_text ,Sunday_date_text)
+        var weekLayout =   arrayListOf(lLayMon,lLayTue, lLayWed, lLayThu, lLayFri ,lLaySat ,lLaySun)
+        val weekDateArray = mutableMapOf<String,TextView>()
+        val weekLayoutArray = mutableMapOf<TextView, LinearLayout>()
+        var currentWeek: Calendar = Calendar.getInstance()
+        currentWeek.set(Calendar.DAY_OF_WEEK,Calendar.MONDAY)
+        var layoutInt = 0
+        weekDayArray.forEach{
+            var weekDay = SimpleDateFormat("yyyy-MM-dd").format(currentWeek.getTimeInMillis())
+            weekDateArray[weekDay] = it
+            weekLayoutArray[it] = weekLayout[layoutInt]
+            it.setText(SimpleDateFormat("dd-MM").format(currentWeek.getTimeInMillis()))
+            currentWeek.add(Calendar.DAY_OF_YEAR, 1)
+            layoutInt++
+        }
+
+
+        var r = Random
+        //setting up the request
+        FuelManager.instance.removeAllRequestInterceptors()
+        if (apiToken != null) {
+            Fuel.get("http://83.87.187.173:8080/agendaEntries?include=drug") //TODO make this request to server
+                .header("Authorization", "Bearer " + apiToken)
+                .responseObject(CalenderDeserializer()) { result ->
+                    when (result) {
+                        is Result.Success -> {
+                            result.value.forEach{
+                                if(weekDateArray.containsKey(SimpleDateFormat("yyyy-MM-dd").format(it.consumedAt.millis))){
+                                    activity!!.runOnUiThread {
+
+                                        val parser: XmlPullParser = resources.getXml(R.xml.eventstyle)
+                                        try {
+                                            parser.next()
+                                            parser.nextTag()
+                                        } catch (e: Exception) {
+                                            e.printStackTrace()
+                                        }
+                                        val attr: AttributeSet = Xml.asAttributeSet(parser)
+                                        var singleEventView = TextView(activity,attr)
+                                        singleEventView.text = it.title
+                                        singleEventView.setId(r.nextInt((100-10)+1)+10)
+
+                                        var weekDay = weekLayoutArray[weekDateArray[SimpleDateFormat("yyyy-MM-dd").format(it.consumedAt.millis)]]
+                                        weekDay!!.addView(singleEventView)
+                                        weekDay.setOnClickListener {
+                                            println(it)
+                                            activity!!.layoutInflater!!.inflate(R.layout.calender_day, container, false)
+                                        }
+                                    }
+                                }
+                            }
+
+                        }
+                        is Result.Failure -> {
+                            println(result)
+                        }
+                    }
+                }
+        }
+    }
+
+}

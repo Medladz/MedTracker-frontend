@@ -18,8 +18,7 @@ data class Attributes (
     val thumbnailURL:String
 )
 
-    //User Deserializer
-    class Deserializer : ResponseDeserializable<DrugFeed> {
-        override fun deserialize(content: String) = Gson().fromJson(content, DrugFeed::class.java)
-    }
-
+//User Deserializer
+class Deserializer : ResponseDeserializable<DrugFeed> {
+    override fun deserialize(content: String) = Gson().fromJson(content, DrugFeed::class.java)
+}
