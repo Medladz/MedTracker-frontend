@@ -134,7 +134,8 @@ class RegisterFragment : Fragment() {
                     DatePickerDialog(
                         it1,
                         DatePickerDialog.OnDateSetListener { _, year, monthOfYear, dayOfMonth ->
-                            datePickerText.setText(("$year-$monthOfYear-$dayOfMonth"))
+                            val newMonthOfYear = monthOfYear + 1
+                            datePickerText.setText(("$year-$newMonthOfYear-$dayOfMonth"))
                         },
                         year,
                         month,
@@ -150,7 +151,8 @@ class RegisterFragment : Fragment() {
                 DatePickerDialog(
                     it1,
                     DatePickerDialog.OnDateSetListener { _, year, monthOfYear, dayOfMonth ->
-                        datePickerText.setText(("$year-$monthOfYear-$dayOfMonth"))
+                        val newMonthOfYear = monthOfYear + 1
+                        datePickerText.setText(("$year-$newMonthOfYear-$dayOfMonth"))
                     },
                     year,
                     month,
