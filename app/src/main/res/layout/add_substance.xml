@@ -26,18 +26,27 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/floatingActionButton"
-        android:background="@color/TextColor"
-        android:foreground="@drawable/gradient"/>
-
-    <TextView
-        android:id="@+id/Substance"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/substances"
-        android:textColor="@color/TextColor"
-        android:textSize="22sp"
+        />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="160dp"
+        android:background="@drawable/gradient"
+        android:layout_marginTop="10dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toBottomOf="@id/PreviewImage" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/floatingActionButton">
+
+        <TextView
+            android:id="@+id/Substance"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/substances"
+            android:textColor="@color/TextColor"
+            android:textSize="22sp"
+            android:layout_alignParentBottom="true"/>
+
+    </RelativeLayout>
+
 
     <View
         android:id="@+id/line"
