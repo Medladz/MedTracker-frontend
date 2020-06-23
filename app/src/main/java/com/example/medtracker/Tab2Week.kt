@@ -21,12 +21,6 @@ import kotlin.random.Random
 
 class Tab2Week : Fragment() {
 
-    val weekDayArray = arrayListOf(MondayDate,TuesdayDate, WednesdayDate, ThursdayDate, FridayDate ,SaturdayDate ,SundayDate)
-    var weekLayout =   arrayListOf(lLayMon,lLayTue, lLayWed, lLayThu, lLayFri ,lLaySat ,lLaySun)
-    val weekDateArray = mutableMapOf<String,TextView>()
-    val weekLayoutArray = mutableMapOf<TextView, LinearLayout>()
-    var currentWeek: Calendar = Calendar.getInstance()
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -39,6 +33,13 @@ class Tab2Week : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+
+        val weekDayArray = arrayListOf(MondayDate,TuesdayDate, WednesdayDate, ThursdayDate, FridayDate ,SaturdayDate ,SundayDate)
+        var weekLayout =   arrayListOf(lLayMon,lLayTue, lLayWed, lLayThu, lLayFri ,lLaySat ,lLaySun)
+        val weekDateArray = mutableMapOf<String,TextView>()
+        val weekLayoutArray = mutableMapOf<TextView, LinearLayout>()
+        var currentWeek: Calendar = Calendar.getInstance()
+
         //Get the API login Token to use as authorization on the Fuel request
         val sharedPreferences = activity?.getSharedPreferences("Token", 0)
         val apiToken = sharedPreferences?.getString("Token", null)

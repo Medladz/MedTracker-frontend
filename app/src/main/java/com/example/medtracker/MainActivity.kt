@@ -31,7 +31,7 @@ class MainActivity : AppCompatActivity() {
             when(it.itemId){
                 R.id.navCalender-> {
                     title=resources.getString(R.string.calender)
-                    loadFragment(Calender())
+                    loadFragment(Tab2Week())
                     return@setOnNavigationItemSelectedListener true
                 }
                 R.id.navSubstances-> {
