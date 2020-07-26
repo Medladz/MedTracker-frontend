@@ -53,4 +53,10 @@
     <string name="hintQuantity">Quantity</string>
     <string name="hintNote">Note</string>
     <string name="hintUnit">Unit</string>
+    <string name="serverIP">http://134.122.62.141:8080</string>
+    <string name="postEntry">http://134.122.62.141:8080/agendaEntries</string>
+    <string name="postRegister">http://134.122.62.141:8080/users</string>
+    <string name="postLogin">http://134.122.62.141:8080/users/login</string>
+    <string name="getAgenda">http://134.122.62.141:8080/agendaEntries?include=drug</string>
+    <string name="getSubstanceList">http://134.122.62.141:8080/drugs?include=components,brands,sources,containers&amp;withVerified=true</string>
 </resources>

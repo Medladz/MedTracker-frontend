@@ -61,7 +61,7 @@ class Tab2Week : Fragment() {
 
         //setting up the request
         FuelManager.instance.removeAllRequestInterceptors()
-        Fuel.get("http://83.87.187.173:8080/agendaEntries?include=drug") //TODO make this request to server
+        Fuel.get(context!!.getString(R.string.getAgenda)) //TODO make this request to server
             .header("Authorization", "Bearer " + apiToken)
             .responseObject(CalenderDeserializer()) { result ->
                 when (result) {

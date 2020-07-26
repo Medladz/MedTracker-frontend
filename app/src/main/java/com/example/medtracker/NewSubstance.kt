@@ -53,7 +53,7 @@ class NewSubstance : FragmentActivity() {
     fun fetchJson(t : String) {
         //setting up the request
         Thread(Runnable {
-            Fuel.get("http://83.87.187.173:8080/drugs?include=components,brands,sources,containers&withVerified=true")
+            Fuel.get(getString(R.string.getSubstanceList))
                 .authentication()
                 .bearer(t)
                 .also { println(it) }

@@ -73,7 +73,7 @@ class AddSubstance : AppCompatActivity(){
         val body = "{\"title\":\"$bodyTitle\",\"note\":\"$note\", \"quantity\":\"$quantity\",\"measurementUnit\":\"$measurementUnit\",\"consumedAt\":\"$formatted\",\"drugID\":$id}"
         //setting up the request
         Thread(Runnable {
-            Fuel.post("http://83.87.187.173:8080/agendaEntries")
+            Fuel.post(getString(R.string.postEntry))
                 .jsonBody(body)
                 .authentication()
                 .bearer(t)

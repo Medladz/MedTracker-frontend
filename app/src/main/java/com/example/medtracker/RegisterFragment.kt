@@ -224,7 +224,7 @@ class RegisterFragment : Fragment() {
 
         //setting up the request
         Thread(Runnable {
-            Fuel.post("http://83.87.187.173:8080/users")
+            Fuel.post(context!!.getString(R.string.postRegister))
                 .jsonBody(registerFormBody)
                 .also { println(it) }
                 .response { result ->
@@ -259,7 +259,7 @@ class RegisterFragment : Fragment() {
 
         //setting up the request
         Thread(Runnable {
-            Fuel.post("http://83.87.187.173:8080/users/login")
+            Fuel.post(context!!.getString(R.string.postLogin))
 
                 .jsonBody(registerFormBody)
                 .also { println(it) }

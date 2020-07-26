@@ -109,7 +109,7 @@ class LoginFragment : Fragment() {
 
         //setting up the request
         Thread(Runnable {
-           Fuel.post("http://83.87.187.173:8080/users/login")
+           Fuel.post(context!!.getString(R.string.postLogin))
                 .jsonBody(loginFormBody)
                 .also { println(it) }
                 .responseObject(User.Deserializer()) { request, response, result ->
